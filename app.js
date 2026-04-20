@@ -146,5 +146,11 @@ app.get("/test", (req, res) => {
     res.json({ ok: true });
 });
 
+app.get("/debug", (req, res) => {
+    res.json({
+        mongo: process.env.MONGO_URL ? "ok" : "missing"
+    });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Backend running on ${PORT}`));
