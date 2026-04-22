@@ -9,9 +9,6 @@ export async function createTips(req, res) {
             slots = []
         } = req.body;
 
-
-        console.log("BODY body:", req.body)
-
         function mergePeriodsWithTips(periods, slots, totalTips) {
             const cleanPeriods = periods.filter(p => p.till !== '' && p.amount !== '');
             let total = 0;
@@ -49,8 +46,6 @@ export async function createTips(req, res) {
 
         const mergedPeriodsWithTips = mergePeriodsWithTips(periods, slots, totalTips);
 
-        console.log('clean tips per period 1:', mergedPeriodsWithTips)
-
         const totalKitchenTips = Number(Math.floor(Number(totalTips - transportFund) * 10) / 100);
 
         // общая инфа по периодам
@@ -59,7 +54,6 @@ export async function createTips(req, res) {
 
             const kitchenPerPeriod = (slot.cleanTipsPerPeriod / Number(totalTips)) * totalKitchenTips;
             const cleanAmountPerPeriod = slot.cleanTipsPerPeriod - kitchenPerPeriod - transportPerPeriod;
-            console.log(kitchenPerPeriod, cleanAmountPerPeriod)
 
             const workers = slot.workers || [];
 
@@ -88,9 +82,8 @@ export async function createTips(req, res) {
             };
         })
 
-        // console.log(JSON.stringify(updatedSlots, null, 2));
 
-        // 🔥 НОВОЕ: считаем totalPerWorker
+        // calculate total payout for all periods
         const totals = {};
 
         updatedSlots.forEach(slot => {
@@ -103,24 +96,22 @@ export async function createTips(req, res) {
             });
         });
 
-        let totalFreeBalance = 0;
+        let allWorkerRoundedTipsTotal = 0;
+        let totalFreeBalance;
 
         const totalPerWorker = Object.entries(totals).map(([worker, totalPayout]) => {
-            const rounded = Math.floor(totalPayout / 5) * 5; // округление вниз до кратного 5
-            const freeBalance = Math.floor((totalPayout - rounded) * 100) / 100;
+            const rounded = Math.floor(totalPayout / 5) * 5;
 
-            totalFreeBalance += freeBalance;
+            allWorkerRoundedTipsTotal += rounded;
 
             return {
                 worker,
                 totalPayout: rounded,
-                freeBalance
+                allWorkerRoundedTipsTotal
             };
         });
 
-        totalFreeBalance = Math.floor(totalFreeBalance * 100) / 100;
-
-        console.log('totalFreeBalance:', totalFreeBalance)
+        totalFreeBalance = totalTips - allWorkerRoundedTipsTotal - transportFund - totalKitchenTips
 
         res.status(201).json({
             data: updatedSlots,
