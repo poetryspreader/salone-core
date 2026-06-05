@@ -5,19 +5,26 @@ import { getWorkers } from "../components/workers/getWorkers.js";
 import { createWorker } from "../components/workers/createWorker.js";
 
 import { createTips } from "../components/tips/createTips.js";
-// import listTips from "../components/tips/getWorkers.js";
 
+import { createProduct } from "../components/products/createProduct.js";
+
+import { login } from "../components/auth/login.js";
+import { checkAuth } from "../middleware/checkAuth.js";
+
+// LOGIN
+router.post("/login", login);
 
 // WORKERS
 router.get("/workers", getWorkers);
 router.post("/workers", createWorker);
 
-// SHIFTS
+// TIPS
 // router.get("/tips", listShifts);
 router.post("/tips", createTips);
 
-// TIPS
-// router.get("/tips", listTips);
-// router.post("/tips", createTips);
+// PRODUCTS
+router.post("/products", createProduct);
+
+
 
 export default router;

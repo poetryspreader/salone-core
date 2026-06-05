@@ -159,6 +159,36 @@ const shiftSchema = new mongoose.Schema({
 });
 export const Shift = mongoose.model("Shift", shiftSchema);
 
+
+const productSchema = new mongoose.Schema({
+    name: {
+        en: { type: String, required: true },
+        ru: { type: String }
+    },
+
+    description: {
+        en: { type: String },
+        ru: { type: String }
+    },
+
+    price: {
+        type: Number,
+        required: true
+    },
+
+    category: {
+        type: String,
+        required: true
+    },
+
+    available: {
+        type: Boolean,
+        default: true
+    }
+});
+
+export const Product = mongoose.model("Product", productSchema);
+
 app.get("/test", (req, res) => {
     res.json({ ok: true });
 });
