@@ -37,8 +37,9 @@ export async function createProduct(req, res) {
     } catch (error) {
         console.error(error);
 
-        res.status(500).json({
-            message: "Failed to create product"
+        return res.status(500).json({
+            message: error.message,
+            error: error
         });
     }
 }
