@@ -3,9 +3,6 @@ import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 
 export async function createProduct(req, res) {
     try {
-        console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
-
         let imageUrl = null;
 
         if (req.file) {
