@@ -162,7 +162,7 @@ export const Shift = mongoose.model("Shift", shiftSchema);
 
 const productSchema = new mongoose.Schema({
     name: {
-        en: { type: String, required: true },
+        en: { type: String },
         ru: { type: String }
     },
 
@@ -177,13 +177,17 @@ const productSchema = new mongoose.Schema({
     },
 
     category: {
-        type: String,
-        required: true
+        en: { type: String },
+        ru: { type: String }
     },
 
     available: {
         type: Boolean,
         default: true
+    },
+
+    image: {
+        type: String
     }
 });
 
