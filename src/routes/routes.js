@@ -15,6 +15,8 @@ import { deleteProduct } from "../components/products/deleteProduct.js";
 import { login } from "../components/auth/login.js";
 import { checkAuth } from "../middleware/checkAuth.js";
 
+import { transcribeVoice } from "../components/voice/transcribeVoice.js";
+
 
 // LOGIN
 router.post("/login", login);
@@ -45,6 +47,13 @@ router.delete(
     "/products/:id",
     checkAuth,
     deleteProduct
+);
+
+// audio recognizer
+router.post(
+    "/transcribe",
+    upload.single("audio"),
+    transcribeVoice
 );
 
 export default router;

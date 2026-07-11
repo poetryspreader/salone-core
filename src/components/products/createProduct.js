@@ -1,4 +1,4 @@
-import { Product } from "../../../app.js";
+import { Product } from "../../models/Product.js";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary.js";
 
 export async function createProduct(req, res) {

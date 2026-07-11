@@ -1,4 +1,4 @@
-import { Worker } from "../../../app.js";
+import { Worker } from "../../models/Worker.js";
 
 export async function getWorkers(req, res) {
     try {
